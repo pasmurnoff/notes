@@ -5,16 +5,15 @@ import Main from "./main/Main";
 import Sidebar from "./sidebar/Sidebar";
 
 function App() {
-  const [notes, setNotes] = useState(
-    localStorage.notes ? JSON.parse(localStorage.notes) : []
-  );
+  const [notes, setNotes] = useState([]);
+
   const [activeNote, setActiveNote] = useState(false);
   
   const makeApiCall = async ()=>{
     try{
       let res = await fetch('http://localhost:8080/notes');
       let data = await res.json();
-      console.log(data);
+      setNotes(data);
     }catch(error){
       console.log(error);
     }
@@ -24,17 +23,17 @@ function App() {
     makeApiCall();
   }, [])
 
- 
-  // useEffect(() => {
-  //   localStorage.setItem("notes", JSON.stringify(notes));
-  // }, [notes]);
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
 
   const onAddNote = () => {
     const newNote = {
       id: uuid(),
       title: "Untitled Note",
       body: "",
-      // lastModified: Date.now(),
+      craeted_at: Date.now(),
+      updated_at: null
     };
 
     setNotes([newNote, ...notes]);
