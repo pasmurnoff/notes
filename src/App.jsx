@@ -9,17 +9,32 @@ function App() {
     localStorage.notes ? JSON.parse(localStorage.notes) : []
   );
   const [activeNote, setActiveNote] = useState(false);
+  
+  const makeApiCall = async ()=>{
+    try{
+      let res = await fetch('http://localhost:8080/notes');
+      let data = await res.json();
+      console.log(data);
+    }catch(error){
+      console.log(error);
+    }
+  }
 
-  useEffect(() => {
-    localStorage.setItem("notes", JSON.stringify(notes));
-  }, [notes]);
+  useEffect(()=>{
+    makeApiCall();
+  }, [])
+
+ 
+  // useEffect(() => {
+  //   localStorage.setItem("notes", JSON.stringify(notes));
+  // }, [notes]);
 
   const onAddNote = () => {
     const newNote = {
       id: uuid(),
       title: "Untitled Note",
       body: "",
-      lastModified: Date.now(),
+      // lastModified: Date.now(),
     };
 
     setNotes([newNote, ...notes]);
