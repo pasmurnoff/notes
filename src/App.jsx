@@ -5,43 +5,7 @@ import Main from "./main/Main";
 import Sidebar from "./sidebar/Sidebar";
 
 function App() {
-  const [notes, setNotes] = useState([
-    {
-        "id": 1,
-        "title": "Demo Note",
-        "body": "Text",
-        "created_at": null,
-        "updated_at": null
-    },
-    {
-        "id": 2,
-        "title": "Demo Note 2",
-        "body": "Texty text",
-        "created_at": null,
-        "updated_at": null
-    },
-    {
-        "id": 3,
-        "title": "Demo Note 3",
-        "body": "Texty text text",
-        "created_at": 1678968420,
-        "updated_at": 1678968420
-    },
-    {
-        "id": 4,
-        "title": null,
-        "body": null,
-        "created_at": null,
-        "updated_at": null
-    },
-    {
-        "id": 5,
-        "title": null,
-        "body": null,
-        "created_at": null,
-        "updated_at": null
-    }
-]);
+  const [notes, setNotes] = useState([]);
 
   const [activeNote, setActiveNote] = useState(false);
   
@@ -65,7 +29,6 @@ function App() {
 
   const onAddNote = () => {
     const newNote = {
-      id: notes.length + 1,
       title: "Untitled Note",
       body: "",
       craeted_at: Date.now(),
@@ -75,6 +38,18 @@ function App() {
     setNotes([newNote, ...notes]);
     setActiveNote(newNote.id);
   };
+
+  const updateNote = async (data)=>{
+    const res = await fetch(`http://localhost:8080/notes/${activeNote}`,{
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    });
+
+    console.log(`http://localhost:8080/notes/${activeNote}`)
+  }
 
   const onDeleteNote = async (noteId) => {
     setNotes(notes.filter(({ id }) => id !== noteId));
@@ -115,7 +90,7 @@ function App() {
         activeNote={activeNote}
         setActiveNote={setActiveNote}
       />
-      <Main activeNote={getActiveNote()} onUpdateNote={onUpdateNote} />
+      <Main activeNote={getActiveNote()} onUpdateNote={onUpdateNote} updateNote={updateNote} makeApiCall={makeApiCall}/>
     </div>
   );
 }
