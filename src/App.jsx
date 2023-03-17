@@ -5,7 +5,43 @@ import Main from "./main/Main";
 import Sidebar from "./sidebar/Sidebar";
 
 function App() {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState([
+    {
+        "id": 1,
+        "title": "Demo Note",
+        "body": "Text",
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 2,
+        "title": "Demo Note 2",
+        "body": "Texty text",
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 3,
+        "title": "Demo Note 3",
+        "body": "Texty text text",
+        "created_at": 1678968420,
+        "updated_at": 1678968420
+    },
+    {
+        "id": 4,
+        "title": null,
+        "body": null,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 5,
+        "title": null,
+        "body": null,
+        "created_at": null,
+        "updated_at": null
+    }
+]);
 
   const [activeNote, setActiveNote] = useState(false);
   
@@ -29,7 +65,7 @@ function App() {
 
   const onAddNote = () => {
     const newNote = {
-      id: uuid(),
+      id: notes.length + 1,
       title: "Untitled Note",
       body: "",
       craeted_at: Date.now(),

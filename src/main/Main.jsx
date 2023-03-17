@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const Main = ({ activeNote, onUpdateNote }) => {
-  const [btnState, setBtnState] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const [error, setError] = useState("")
 
   const onEditField = (field, value) => {
@@ -21,14 +21,24 @@ const Main = ({ activeNote, onUpdateNote }) => {
       body: JSON.stringify(data)
     });
     if(res.status === 201){
-      setBtnState(true)
-
-      setTimeout(()=>{
-       setBtnState(false) 
-      }, 3000)
+      setIsSaved(true)
     }
     else{
       setError("something went wrong note not saved")
+    }
+  }
+
+  const updateNote = async (data)=>{
+    const res = await fetch(`http://localhost:8080/notes/${activeNote.id}}`,{
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    });
+
+    if(res.status !== 201){
+      setError("something went wrong, note not updated")
     }
   }
 
@@ -36,10 +46,17 @@ const Main = ({ activeNote, onUpdateNote }) => {
     e.preventDefault();
     let title = e.target[0].value;
     let body = e.target[1].value;
-    let craeted_at = Date.now();
-    let updated_at = "";
-
-    addNote({title, body, craeted_at, updated_at});
+   
+    if(isSaved){
+      let craeted_at = Date.now();
+      let updated_at = "";
+      addNote({title, body, craeted_at, updated_at});
+    }
+    else{
+      let craeted_at = "";
+      let updated_at = Date.now();
+      updateNote({title, body, craeted_at, updated_at})
+    }
   };
 
   if (!activeNote) return <div className="no-active-note">No Active Note</div>;
@@ -62,7 +79,7 @@ const Main = ({ activeNote, onUpdateNote }) => {
             value={activeNote.body}
             onChange={(e) => onEditField("body", e.target.value)}
           />
-          <input type="submit" value={btnState ? "saved!" : "save note"}/>
+          <input type="submit" value={isSaved ? "update" : "save note"}/>
           <p>{error}</p>
         </form>
       </div>
