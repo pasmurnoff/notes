@@ -22,6 +22,10 @@ const Main = ({ activeNote, onUpdateNote }) => {
     });
     if(res.status === 201){
       setBtnState(true)
+
+      setTimeout(()=>{
+       setBtnState(false) 
+      }, 3000)
     }
     else{
       setError("something went wrong note not saved")
@@ -58,7 +62,7 @@ const Main = ({ activeNote, onUpdateNote }) => {
             value={activeNote.body}
             onChange={(e) => onEditField("body", e.target.value)}
           />
-          <input type="submit" value={btnState ? "saved" : "save note"}/>
+          <input type="submit" value={btnState ? "saved!" : "save note"}/>
           <p>{error}</p>
         </form>
       </div>
