@@ -40,8 +40,18 @@ function App() {
     setActiveNote(newNote.id);
   };
 
-  const onDeleteNote = (noteId) => {
+  const onDeleteNote = async (noteId) => {
     setNotes(notes.filter(({ id }) => id !== noteId));
+
+    // delete in backend
+    let res = await fetch(`http://localhost:8080/notes/${noteId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    console.log(res);
   };
 
   const onUpdateNote = (updatedNote) => {

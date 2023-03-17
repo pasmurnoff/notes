@@ -1,4 +1,9 @@
+import { useState } from "react";
+
 const Main = ({ activeNote, onUpdateNote }) => {
+  const [btnState, setBtnState] = useState(false);
+  const [error, setError] = useState("")
+
   const onEditField = (field, value) => {
     onUpdateNote({
       ...activeNote,
@@ -15,8 +20,12 @@ const Main = ({ activeNote, onUpdateNote }) => {
       },
       body: JSON.stringify(data)
     });
-    let status = res.json();
-    console.log(status);
+    if(res.status === 201){
+      setBtnState(true)
+    }
+    else{
+      setError("something went wrong note not saved")
+    }
   }
 
   const handleOnSubmit = (e)=>{
@@ -49,7 +58,8 @@ const Main = ({ activeNote, onUpdateNote }) => {
             value={activeNote.body}
             onChange={(e) => onEditField("body", e.target.value)}
           />
-          <input type="submit" value="create note"/>
+          <input type="submit" value={btnState ? "saved" : "save note"}/>
+          <p>{error}</p>
         </form>
       </div>
     </div>
