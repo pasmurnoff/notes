@@ -47,7 +47,7 @@ function App() {
   
   const makeApiCall = async ()=>{
     try{
-      let res = await fetch('http://localhost:8080/notes');
+      let res = await fetch('http://localhost:8080/notes?sort=-id');
       let data = await res.json();
       setNotes(data);
     }catch(error){

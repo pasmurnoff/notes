@@ -13,7 +13,7 @@ const Main = ({ activeNote, onUpdateNote }) => {
   };
 
   const addNote = async (data)=>{
-    let res = await fetch("http://localhost:8080/notes/create", {
+    let res = await fetch("http://localhost:8080/notes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
