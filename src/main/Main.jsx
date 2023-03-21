@@ -23,14 +23,14 @@ const Main = ({ activeNote, onUpdateNote, updateNote, makeApiCall }) => {
     });
     if(res.status !== 500){
       setIsSaved(true)
-      setMsg("note saved!")
+      setMsg("Заметка сохранена!")
    
       setTimeout(()=>{
         setMsg("")
       }, 3000)
     }
     else{
-      setError("something went wrong note not saved")
+      setError("Что-то пошло не так, заметка не сохранена!")
     }
   }
 
@@ -39,7 +39,7 @@ const Main = ({ activeNote, onUpdateNote, updateNote, makeApiCall }) => {
     let title = activeNote.title;
     let body = activeNote.body;    
     updateNote({title, body});
-    setMsg("note updated!")
+    setMsg("Запись обновлена!")
 
     setTimeout(()=>{
       setMsg("")
@@ -57,7 +57,7 @@ const Main = ({ activeNote, onUpdateNote, updateNote, makeApiCall }) => {
   };
 
 
-  if (!activeNote) return <div className="no-active-note">No Active Note</div>;
+  if (!activeNote) return <div className="no-active-note">Нет активных заметок</div>;
 
   return (
     <div className="app-main">
@@ -65,20 +65,20 @@ const Main = ({ activeNote, onUpdateNote, updateNote, makeApiCall }) => {
         <input
           type="text"
           id="title"
-          placeholder="Note Title"
+          placeholder="Заголовок заметки"
           value={activeNote.title}
           onChange={(e) => onEditField("title", e.target.value)}
           autoFocus
         />
         <textarea
           id="body"
-          placeholder="Write your note here..."
+          placeholder="Начните писать текст здесь...."
           value={activeNote.body}
           onChange={(e) => onEditField("body", e.target.value)}
         />
-        { !activeNote.id && <button onClick={handleOnClickSave}>save</button>}
+        { !activeNote.id && <button class="subutton" onClick={handleOnClickSave}>Создать заметку</button>}
         <br/>
-        { activeNote.id && <button onClick={handleOnClickUpdate}>update</button>}
+        { activeNote.id && <button class="subutton" onClick={handleOnClickUpdate}>Обновить</button>}
         <p>{error}</p>
         <p>{msg}</p>
       </div>

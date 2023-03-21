@@ -1,3 +1,6 @@
+import add from '../icons/add.svg';
+import del from '../icons/delete.svg';
+
 const Sidebar = ({
   notes,
   onAddNote,
@@ -11,7 +14,7 @@ const Sidebar = ({
     <div className="app-sidebar">
       <div className="app-sidebar-header">
         <h1>Notes</h1>
-        <button onClick={onAddNote}>Add</button>
+        <button onClick={onAddNote}><img width="30" src={add} /></button>
       </div>
       <div className="app-sidebar-notes">
         {sortedNotes.map(({ id, title, body, lastModified }, i) => (
@@ -21,17 +24,17 @@ const Sidebar = ({
           >
             <div className="sidebar-note-title">
               <strong>{title}</strong>
-              <button onClick={(e) => onDeleteNote(id)}>Delete</button>
+              <button onClick={(e) => onDeleteNote(id)}><img width="20" src={del} /></button>
             </div>
 
             <p>{body && body.substr(0, 100) + "..."}</p>
-            <small className="note-meta">
+            {/* <small className="note-meta">
               Last Modified{" "}
               {new Date(lastModified).toLocaleDateString("en-GB", {
                 hour: "2-digit",
                 minute: "2-digit",
               })}
-            </small>
+            </small> */}
           </div>
         ))}
       </div>
